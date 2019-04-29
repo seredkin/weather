@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: com.care.seredkin
+---
+testFramework: spek
+sourceLanguage: kotlin

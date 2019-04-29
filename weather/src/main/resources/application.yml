@@ -1,0 +1,10 @@
+micronaut:
+  application:
+    name: weather
+  caches.weather.expire-after-write: 60s
+jackson:
+  serialization:
+    writeDatesAsTimestamps: false
+  modules:
+    - javaTimeModule
+    - kotlinModule
