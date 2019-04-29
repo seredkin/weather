@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "bbc4b2f9-d466-40ca-a3d5-12708026d453",
+		"name": "care.com weather portal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Berlin,de",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.openweathermap.org/data/2.5/weather?q=Berlin,de&appid=06dc5f76382447d7de223d102903f432&units=metric",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Berlin,de"
+						},
+						{
+							"key": "appid",
+							"value": "06dc5f76382447d7de223d102903f432"
+						},
+						{
+							"key": "units",
+							"value": "metric"
+						}
+					]
+				},
+				"description": "https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22"
+			},
+			"response": []
+		},
+		{
+			"name": "Waltham, US",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://api.openweathermap.org/data/2.5/weather?q=Waltham,us&appid=06dc5f76382447d7de223d102903f432&units=metric",
+					"protocol": "https",
+					"host": [
+						"api",
+						"openweathermap",
+						"org"
+					],
+					"path": [
+						"data",
+						"2.5",
+						"weather"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Waltham,us"
+						},
+						{
+							"key": "appid",
+							"value": "06dc5f76382447d7de223d102903f432"
+						},
+						{
+							"key": "units",
+							"value": "metric"
+						}
+					]
+				},
+				"description": "https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22"
+			},
+			"response": []
+		}
+	]
+}
