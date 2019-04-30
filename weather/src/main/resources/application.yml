@@ -5,6 +5,7 @@ micronaut:
 jackson:
   serialization:
     writeDatesAsTimestamps: false
+    indentOutput: true
   modules:
     - javaTimeModule
     - kotlinModule

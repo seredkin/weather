@@ -25,19 +25,11 @@ data class Main(
         val temp_min: Double
 )
 
-data class Clouds(
-        val all: Int
-)
+data class Clouds(val all: Int)
 
-data class Coord(
-        val lat: Double,
-        val lon: Double
-)
+data class Coord(val lat: Double,val lon: Double)
 
-data class Wind(
-        val deg: Int,
-        val speed: Double
-)
+data class Wind(val deg: Int, val speed: Double)
 
 data class Sys(
         val country: String,

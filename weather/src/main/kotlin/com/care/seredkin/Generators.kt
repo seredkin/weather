@@ -30,5 +30,9 @@ private fun Random.plusOrMinus() = if (this.nextBoolean()) 1 else -1
 
 fun randomCity(cities: Set<String>): City {
     val at = cities.elementAt(Random().nextInt(cities.size))
-    return City(at.substringAfter("."), at.substringBefore("."))
+    return cityFromConfigString(at)
+}
+
+fun cityFromConfigString(configString: String): City {
+    return City(configString.substringAfter("."), configString.substringBefore("."))
 }

@@ -26,9 +26,9 @@ open class WeatherService() {
     }
 
 
-    fun findAll(): Flowable<CityWeatherResponse> {
+    fun findAll(interval:Long = 3L, timeUnit: TimeUnit = TimeUnit.SECONDS): Flowable<CityWeatherResponse> {
         //data streaming simulation
-        return Flowable.interval(3L, TimeUnit.SECONDS)
+        return Flowable.interval(interval, timeUnit)
                 .onBackpressureDrop()
                 .map { generateFakeWeather(randomCity(defaultCities)) }
     }
