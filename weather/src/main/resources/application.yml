@@ -1,7 +1,7 @@
 micronaut:
   application:
     name: weather
-  caches.weather.expire-after-write: 60s
+  caches.weather.expire-after-write: 180s
 jackson:
   serialization:
     writeDatesAsTimestamps: false

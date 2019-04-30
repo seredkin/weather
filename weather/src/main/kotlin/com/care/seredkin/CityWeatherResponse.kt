@@ -2,7 +2,7 @@ package com.care.seredkin
 
 import java.time.Instant
 
-data class OpenWeatherMapWeatherResponse(
+data class CityWeatherResponse(
         val base: String,
         val clouds: Clouds,
         val cod: Int,
@@ -34,12 +34,10 @@ data class Coord(
         val lon: Double
 )
 
-
 data class Wind(
         val deg: Int,
         val speed: Double
 )
-
 
 data class Sys(
         val country: String,
