@@ -12,7 +12,7 @@ class WeatherController(private val weatherService: WeatherService) {
     fun currentWeather(country: String, city: String) = weatherService.currentWeather(City(city, country))
 
 
-    @Get("/stream/weather")
+    @Get(value="/stream/weather", produces = ["text/event-stream"])
     fun findAll(): Flowable<CityWeatherResponse> = weatherService.findAll()
 
 }

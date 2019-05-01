@@ -34,6 +34,8 @@ dependencies {
     compile "io.micronaut:micronaut-runtime"
     compile "io.micronaut:micronaut-http-client"
     compile "io.micronaut:micronaut-http-server-netty"
+    compile("org.webjars:jquery:3.3.1")
+    compile group: 'org.webjars', name: 'bootstrap-tagsinput', version: '0.8.0'
     kapt "io.micronaut:micronaut-inject-java"
     kapt "io.micronaut:micronaut-validation"
     kaptTest "io.micronaut:micronaut-inject-java"
