@@ -1,0 +1,42 @@
+{
+  "base": "stations",
+  "clouds": {
+    "all": 20
+  },
+  "cod": 200,
+  "coord": {
+    "lat": 52.52,
+    "lon": 13.39
+  },
+  "dt": "2019-05-01T16:04:09Z",
+  "id": 2950159,
+  "main": {
+    "humidity": 51,
+    "pressure": 1010,
+    "temp": 290.97,
+    "temp_max": 293.15,
+    "temp_min": 289.82
+  },
+  "name": "Berlin",
+  "sys": {
+    "country": "DE",
+    "id": 1275,
+    "message": 0.0071,
+    "sunrise": "2019-05-01T03:35:43Z",
+    "sunset": "2019-05-01T18:31:15Z",
+    "type": 1
+  },
+  "visibility": 10000,
+  "weather": [
+    {
+      "description": "few clouds",
+      "icon": "02d",
+      "id": 801,
+      "main": "Clouds"
+    }
+  ],
+  "wind": {
+    "deg": 300,
+    "speed": 6.7
+  }
+}
