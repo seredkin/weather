@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Singleton
-open class WeatherService() {
+open class WeatherService {
     private val client = DefaultHttpClient(URL("https://api.openweathermap.org"))
 
 
@@ -26,9 +26,9 @@ open class WeatherService() {
     }
 
 
-    fun findAll(interval:Long = 3L, timeUnit: TimeUnit = TimeUnit.SECONDS): Flowable<CityWeatherResponse> {
+    fun fetch(interval: Int = 1, timeUnit: TimeUnit = TimeUnit.SECONDS): Flowable<CityWeatherResponse> {
         //data streaming simulation
-        return Flowable.interval(interval, timeUnit)
+        return Flowable.interval(interval.toLong(), timeUnit)
                 .onBackpressureDrop()
                 .map { generateFakeWeather(randomCity(defaultCities)) }
     }

@@ -9,10 +9,37 @@
 </head>
 <body>
 <div>
-    <select multiple data-role="tagsinput">
-        <option value="Berlin.de">Berlin, DE</option>
+    <div class="btn-group" role="group" aria-label="Data Source">
+        <button type="button" class="btn btn-secondary">Real</button>
+        <button type="button" class="btn btn-secondary">Fake</button>
+    </div>
+    <div class="form-group">
+        <label for="formControlRange">Refresh Rate</label>
+        <input type="range"
+               class="form-control-range"
+               id="formControlRange"
+               min="1"
+               max="60"
+               step="1"
+               value="5"
+        >
+    </div>
+    <div>
+
+        <div>
+            <select id="citySelect" multiple data-role="tagsinput"
+                    alt="Type in City and Country Code via dot symbol">
+                <option value="Berlin.de"></option>
         <option value="Waltham.us">Waltham, US</option>
     </select>
+        </div>
+
+    </div>
+    <div>
+        <p>&nbsp;</p>
+        <h5>Current Weather by city:</h5>
+        <ul id="mainForecast">
+        </ul>
 </div>
 <div id="forecast">    <!-- Built by JS --> </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

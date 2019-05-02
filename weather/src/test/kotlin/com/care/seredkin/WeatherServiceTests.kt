@@ -19,7 +19,7 @@ class WeatherServiceTests {
     @Test
     fun streamUnitTest() {
         val service = WeatherService()
-        val toList = service.findAll(1, TimeUnit.MILLISECONDS).take(100).toList().blockingGet().toList()
+        val toList = service.fetch(1, TimeUnit.MILLISECONDS).take(100).toList().blockingGet().toList()
         assert(toList.size == 100)
     }
 

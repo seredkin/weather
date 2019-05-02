@@ -12,8 +12,8 @@ class WeatherController(private val weatherService: WeatherService) {
     fun currentWeather(country: String, city: String) = weatherService.currentWeather(City(city, country))
 
 
-    @Get(value="/stream/weather", produces = ["text/event-stream"])
-    fun findAll(): Flowable<CityWeatherResponse> = weatherService.findAll()
+    @Get(value="/stream/weather/{cities}/{interval}", produces = ["text/event-stream"])
+    fun findAll(cities:String, interval:Int): Flowable<CityWeatherResponse> = weatherService.fetch(interval = interval)
 
 }
 
