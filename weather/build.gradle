@@ -35,6 +35,8 @@ dependencies {
     compile "io.micronaut:micronaut-http-client"
     compile "io.micronaut:micronaut-http-server-netty"
     compile("org.webjars:jquery:3.3.1")
+    compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
+    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.18'
     compile group: 'org.webjars', name: 'bootstrap-tagsinput', version: '0.8.0'
     kapt "io.micronaut:micronaut-inject-java"
     kapt "io.micronaut:micronaut-validation"

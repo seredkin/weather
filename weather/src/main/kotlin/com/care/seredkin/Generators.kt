@@ -1,23 +1,23 @@
 package com.care.seredkin
 
 import java.time.Instant
-import java.util.*
 import java.util.concurrent.ThreadLocalRandom
+import kotlin.random.Random.Default.nextInt
 
-fun generateFakeWeather(city: City): CityWeatherResponse {
+fun generateFakeWeather(cityName: CityNameRequest): CityNameResponse {
     val r = ThreadLocalRandom.current()
-    val temperature = r.nextDouble(50.0) * r.plusOrMinus()
-    val id = r.nextInt()
-    return CityWeatherResponse(base = "fake",
+    val temperature = r.nextDouble(-50.0, 50.0)
+    val id = r.nextLong()
+    return CityNameResponse(base = "fake",
             clouds = Clouds(0),
             cod = r.nextInt(1000),
-            coord = Coord(r.nextDouble(90.0) * r.plusOrMinus(), r.nextDouble(90.0) * r.plusOrMinus()),
+            coord = Coord(r.nextDouble(-90.0, 90.0), r.nextDouble(-90.0, 90.0)),
             dt = Instant.now().minusMillis(r.nextInt(1000).toLong()),
             id = id,
             main = Main(humidity = r.nextInt(100), pressure = r.nextInt(200) + 900, temp = temperature,
                     temp_max = temperature + r.nextDouble(2.0), temp_min = temperature - r.nextDouble(2.0)),
-            name = city.name,
-            sys = Sys(city.countryCode, id, r.nextDouble(), Instant.now().minusSeconds(r.nextLong(0, 10000)),
+            name = cityName.name,
+            sys = Sys(cityName.countryCode, id, r.nextDouble(), Instant.now().minusSeconds(r.nextLong(0, 10000)),
                     Instant.now().plusSeconds(r.nextLong(0, 10000)),
                     r.nextInt(1)),
             visibility = r.nextInt(100),
@@ -26,13 +26,11 @@ fun generateFakeWeather(city: City): CityWeatherResponse {
     )
 }
 
-private fun Random.plusOrMinus() = if (this.nextBoolean()) 1 else -1
-
-fun randomCity(cities: Set<String>): City {
-    val at = cities.elementAt(Random().nextInt(cities.size))
+fun randomCity(cities: Set<String>): CityNameRequest {
+    val at = cities.elementAt(nextInt(cities.size))
     return cityFromConfigString(at)
 }
 
-fun cityFromConfigString(configString: String): City {
-    return City(configString.substringAfter("."), configString.substringBefore("."))
+fun cityFromConfigString(configString: String): CityNameRequest {
+    return CityNameRequest(name = configString.substringBefore("."), countryCode = configString.substringAfter("."))
 }

@@ -2,13 +2,13 @@ package com.care.seredkin
 
 import java.time.Instant
 
-data class CityWeatherResponse(
+data class CityNameResponse(
         val base: String,
         val clouds: Clouds,
         val cod: Int,
         val coord: Coord,
         val dt: Instant,
-        val id: Int,
+        val id: Long,
         val main: Main,
         val name: String,
         val sys: Sys,
@@ -33,7 +33,7 @@ data class Wind(val deg: Int, val speed: Double)
 
 data class Sys(
         val country: String,
-        val id: Int,
+        val id: Long,
         val message: Double,
         val sunrise: Instant,
         val sunset: Instant,
