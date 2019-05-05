@@ -1,5 +1,6 @@
 package com.care.seredkin
 
+import com.care.seredkin.WeatherService.Companion.METRIC
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.junit.jupiter.api.Test
@@ -10,12 +11,17 @@ class WeatherServiceTests {
     private val weatherService = WeatherService(ObjectMapper().registerKotlinModule())
 
     @Test
+    fun init() {
+        WeatherController(weatherService).init()
+    }
+
+    @Test
     fun fetchFromOwmIntegrationTest() {
         val service = weatherService
-        configuredCities.forEach {
+        configuredCities.values.forEach {
             with(service.currentWeather(cityFromConfigString(it))) {
                 assert(this.main.temp.isFinite())
-                assert(configuredCities.any { str -> cityFromConfigString(str).name == it.substringBefore(".") })
+                assert(configuredCities.any { str -> cityFromConfigString(str.value).name == it.substringBefore(".") })
             }
         }
     }
@@ -51,6 +57,20 @@ class WeatherServiceTests {
         with(controller.currentWeather("RU", irkutsk)) {
             assert(this.name == irkutsk)
         }
+    }
+
+    @Test
+    fun groupOfIdsRequestTest() {
+        val controller = WeatherController(weatherService)
+        val cityIds = Configuration.defaultCities.keys.joinToString(",")
+        val cityMap = controller.currentWeatherInCities(cityIds, METRIC, 1).firstOrError().blockingGet()
+        assert(cityMap.size == Configuration.defaultCities.size)
+    }
+
+    @Test fun testFakeGeneration(){
+        val controller = WeatherController(weatherService)
+        val cityG = controller.fakeAll(1).firstOrError().blockingGet()
+        assert(Configuration.defaultCities.containsValue(cityG.owmKey()))
     }
 
 }

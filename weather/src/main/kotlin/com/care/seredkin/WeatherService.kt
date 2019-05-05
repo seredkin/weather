@@ -11,7 +11,6 @@ import io.micronaut.core.io.ResourceResolver
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.client.DefaultHttpClient
 import io.reactivex.Flowable
-import org.apache.commons.compress.compressors.CompressorStreamFactory
 import java.net.URL
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -27,20 +26,20 @@ open class WeatherService(private val mapper: ObjectMapper) {
         const val METRIC = "metric"
     }
 
-    open fun currentWeather(cityName: CityNameRequest): CityG {
-        val units = if (imperialUnitCountries.contains(cityName.countryCode)) IMPERIAL else METRIC
-        val request = HttpRequest.GET<Any>("/data/2.5/weather?q=${cityName.name},${cityName.countryCode}&appid=$apiKey&units=$units")
+    open fun currentWeather(cityAndCountry: String): CityG {
+        val units = if (imperialUnitCountries.contains(cityAndCountry.substringAfter(".").toLowerCase())) IMPERIAL else METRIC
+        val request = HttpRequest.GET<Any>("/data/2.5/weather?q=$cityAndCountry&appid=$apiKey&units=$units")
         val cityResponse = client.toBlocking().retrieve(request, CityG::class.java)
         val cityEntity = CityEntity(cityResponse.id, cityResponse.name, cityResponse.sys.country)
         cache.put(cityEntity.owmKey(), cityEntity)
         return cityResponse
     }
 
-    fun fake(interval: Int = 1, timeUnit: TimeUnit = TimeUnit.SECONDS): Flowable<CityNameResponse> {
+    fun fake(interval: Int = 1, timeUnit: TimeUnit = TimeUnit.SECONDS): Flowable<CityG> {
         //data streaming simulation
         return Flowable.interval(interval.toLong(), timeUnit)
                 .onBackpressureDrop()
-                .map { generateFakeWeather(randomCity(defaultCities)) }
+                .map { generateFakeWeather(randomCity(defaultCities.values.toSet())) }
     }
 
     fun currentWeatherByIds(cityIds: LongArray, units: String, interval: Int): Flowable<Map<String, CityG>> {
@@ -49,26 +48,26 @@ open class WeatherService(private val mapper: ObjectMapper) {
                 "appid=$apiKey&" +
                 "units=${if (units == IMPERIAL) IMPERIAL else METRIC}")
         return Flowable.interval(interval.toLong(), TimeUnit.SECONDS).onBackpressureDrop()
-                .map { client.toBlocking().retrieve(request, CityGroupResponse::class.java).list.associateBy { it.owmKey() } }
+                .map { client.toBlocking().retrieve(request, CityGroupResponse::class.java).list.associateBy { it.id.toString() } }
     }
 
     fun init() {
-        val loader = ResourceResolver().getResourceAsStream("classpath:city.list.zip")
-        if (loader.isPresent) {
+        val path = "classpath:city.list.json"
+        ResourceResolver().getResourceAsStream(path).map {
             val owmData: LinkedList<CityEntityOwm> = mapper.readerFor(TypeFactory.defaultInstance()
-                    .constructCollectionType(LinkedList::class.java, CityEntityOwm::class.java))
-                    .readValue(CompressorStreamFactory().createCompressorInputStream((loader.get())))
-            owmData.filter { it.name.contains("Berlin") }.forEach { println(it) }
-        }
+                    .constructCollectionType(LinkedList::class.java, CityEntityOwm::class.java)).readValue(it)
+            owmData.filter { it.name.contains("Berlin") || it.name.contains("Waltham") }.forEach { println(it) }
+        }.orElseThrow() { IllegalStateException("Resource with path $path not found") }
     }
+
 }
 
 data class CityEntity(val id: Long, val name: String, val countryCode: String)
 data class CityNameRequest(val name: String, val countryCode: String)
-data class CityEntityOwm(val id: Long, val name: String, val country: String, val coord: Coord)
+data class CityEntityOwm(val id: Long, val name: String, val country: String, val coord: CoordG)
 
-private fun CityEntity.owmKey() = "${this.name}.${this.countryCode}"
-private fun CityG.owmKey() = "${this.name}.${this.sys.country}"
+fun CityEntity.owmKey() = "${this.name}.${this.countryCode}"
+fun CityG.owmKey() = "${this.name}.${this.sys.country}"
 
 
 
