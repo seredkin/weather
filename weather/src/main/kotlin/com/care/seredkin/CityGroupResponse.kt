@@ -2,32 +2,34 @@ package com.care.seredkin
 
 import java.time.Instant
 
-data class CityGroupResponse(val cnt: Int, val list: List<CityG>)
-data class CityG(
-        var base: String? = null,
+data class CityGroupResponse(val cnt: Int, val list: List<City>)
+data class City(
+        var base: String? = null,//appears only in CityByName response
         var cod: Int? = null,
-        val clouds: CloudsG,
-        val coord: CoordG,
+        val clouds: Clouds,
+        val coord: Coord,
         val dt: Instant,
         val id: Long,
-        val main: MainG,
+        val main: Main,
         val name: String,
-        val sys: SysG,
+        val sys: Sys,
         val visibility: Int,
-        val weather: List<WeatherG>,
-        val wind: WindG
+        val weather: List<Weather>,
+        val wind: Wind
 )
-data class CloudsG(val all: Int)
-data class CoordG(val lat: Double, val lon: Double)
-data class MainG(
+
+data class Clouds(val all: Int)
+data class Coord(val lat: Double, val lon: Double)
+data class Main(
         val humidity: Int,
         val pressure: Int,
         val temp: Double,
         val temp_max: Double,
         val temp_min: Double
 )
-data class WindG(val deg: Int, val speed: Double)
-data class SysG(
+
+data class Wind(val deg: Int, val speed: Double)
+data class Sys(
         val country: String,
         val id: Long,
         val message: Double,
@@ -36,7 +38,7 @@ data class SysG(
         val type: Int
 )
 
-data class WeatherG(
+data class Weather(
         val description: String,
         val icon: String,
         val id: Int,

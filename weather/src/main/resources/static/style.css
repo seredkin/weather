@@ -6,12 +6,6 @@ html {
     overflow-y: scroll;
 }
 
-
-.bootstrap-tagsinput .tag {
-  margin-right: 2px;
-  color: black;
-}
-
 body {
     font-family: monospace;
     font-size: 14px;
@@ -39,16 +33,6 @@ li {
     margin: 0 0 5px 0
 }
 
-#userlist {
-    position: fixed;
-    left: 50%;
-    list-style: none;
-    margin-left: 250px;
-    background: #f0f0f9;
-    padding: 5px 10px;
-    width: 150px;
-    top: 11px;
-}
 
 #forecast p {
     margin: 5px 0;

@@ -34,19 +34,15 @@ dependencies {
     compile "io.micronaut:micronaut-runtime"
     compile "io.micronaut:micronaut-http-client"
     compile "io.micronaut:micronaut-http-server-netty"
-    compile("org.webjars:jquery:3.3.1")
-    compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
-    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.18'
-    compile group: 'org.webjars', name: 'bootstrap-tagsinput', version: '0.8.0'
     kapt "io.micronaut:micronaut-inject-java"
     kapt "io.micronaut:micronaut-validation"
     kaptTest "io.micronaut:micronaut-inject-java"
     runtime "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testCompile "org.junit.jupiter:junit-jupiter-api"
-    testCompile "org.jetbrains.spek:spek-api:1.1.5"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine"
-    testRuntime "org.jetbrains.spek:spek-junit-platform-engine:1.1.5"
+    testCompile "io.micronaut.test:micronaut-test-junit5:1.0.2"
+    testCompile "org.mockito:mockito-junit-jupiter:2.22.0"
+    testCompile "io.micronaut.test:micronaut-test-spock:1.0.2"
 }
 
 test.classpath += configurations.developmentOnly

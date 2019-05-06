@@ -2,7 +2,7 @@ package com.care.seredkin
 
 object Configuration {
     //https://www.quora.com/Which-countries-use-Fahrenheit-as-a-measurement-of-temperature
-    val imperialUnitCountries = setOf("us", "pw", "fm", "mh", "bs", "bz", "ky")
+    val imperialUnitCountries = setOf("US", "PW", "FM", "MH", "BS", "BZ", "KY")
     const val apiKey = "06dc5f76382447d7de223d102903f432"
-    val defaultCities = mapOf(Pair(2950159L,"DE.Berlin"), Pair(4954380L, "US.Waltham"))
+    val defaultCities = mapOf(Pair(2950159L,"Berlin,DE"), Pair(4954380L, "Waltham,US"))
 }

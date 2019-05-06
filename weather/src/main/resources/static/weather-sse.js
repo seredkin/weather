@@ -1,6 +1,6 @@
 
 var eventList = null;
-var cities = new Set(["2950159", "4954380"]);
+var cities = new Set(["2950159", "4954380"]);//Berlin and Waltham
 
 
 var eventListOnMessage = function(event) {

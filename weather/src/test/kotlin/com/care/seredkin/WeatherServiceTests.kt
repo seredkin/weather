@@ -4,42 +4,25 @@ import com.care.seredkin.WeatherService.Companion.METRIC
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.junit.jupiter.api.Test
-import java.util.concurrent.TimeUnit
+import java.time.Instant.now
+import kotlin.math.absoluteValue
 import com.care.seredkin.Configuration.defaultCities as configuredCities
 
 class WeatherServiceTests {
     private val weatherService = WeatherService(ObjectMapper().registerKotlinModule())
 
     @Test
-    fun init() {
-        WeatherController(weatherService).init()
-    }
-
-    @Test
     fun fetchFromOwmIntegrationTest() {
         val service = weatherService
         configuredCities.values.forEach {
-            with(service.currentWeather(cityFromConfigString(it))) {
+            with(service.currentWeather(it)) {
                 assert(this.main.temp.isFinite())
-                assert(configuredCities.any { str -> cityFromConfigString(str.value).name == it.substringBefore(".") })
+                assert(this.clouds.all >= 0)
+                assert(this.dt.isBefore(now()))//make sure we're on time with the server
+                assert(this.main.temp.absoluteValue < 250)//happens in case typos in 'units' parameter
+                assert(configuredCities.any { str -> str.value == it })
             }
         }
-    }
-
-    @Test
-    fun streamUnitTest() {
-        val toList = weatherService.fake(1, TimeUnit.MILLISECONDS).take(100).toList().blockingGet().toList()
-        assert(toList.size == 100)
-    }
-
-    @Test
-    fun controllerUnitTest() {
-        val cityWeatherResponse = WeatherController(weatherService)
-                .fakeAll(1).firstOrError().blockingGet()
-        with(cityWeatherResponse) {
-            assert(this.name.isNotBlank())
-        }
-
     }
 
     @Test
@@ -48,13 +31,13 @@ class WeatherServiceTests {
         val berlin = "Berlin"
         val waltham = "Waltham"
         val irkutsk = "Irkutsk"
-        with(controller.currentWeather("DE", berlin)) {
+        with(controller.currentWeather("$berlin,DE")) {
             assert(this.name == berlin)
         }
-        with(controller.currentWeather("US", waltham)) {
+        with(controller.currentWeather("$waltham,US")) {
             assert(this.name == waltham)
         }
-        with(controller.currentWeather("RU", irkutsk)) {
+        with(controller.currentWeather("$irkutsk,RU")) {
             assert(this.name == irkutsk)
         }
     }
@@ -65,12 +48,6 @@ class WeatherServiceTests {
         val cityIds = Configuration.defaultCities.keys.joinToString(",")
         val cityMap = controller.currentWeatherInCities(cityIds, METRIC, 1).firstOrError().blockingGet()
         assert(cityMap.size == Configuration.defaultCities.size)
-    }
-
-    @Test fun testFakeGeneration(){
-        val controller = WeatherController(weatherService)
-        val cityG = controller.fakeAll(1).firstOrError().blockingGet()
-        assert(Configuration.defaultCities.containsValue(cityG.owmKey()))
     }
 
 }
